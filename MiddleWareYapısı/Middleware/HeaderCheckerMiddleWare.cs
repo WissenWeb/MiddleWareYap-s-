@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using MiddleWareYapısı.Controllers;
+using Newtonsoft.Json;
 
 namespace MiddleWareYapısı.Middleware
 {
@@ -24,6 +26,11 @@ namespace MiddleWareYapısı.Middleware
             #region middleware içerisinde body'e erişip body içerisindeki nesneleri yakalama
             httpContext.Request.EnableBuffering();
             var bodyAsText =  new System.IO.StreamReader(httpContext.Request.Body).ReadToEndAsync();
+
+            //Body iöçerisinde gelen User bilgisi, user tipine dönüştürülebilir.
+           var user= JsonConvert.DeserializeObject<User>(bodyAsText.Result);
+
+            
             httpContext.Request.Body.Position = 0;
 
             #endregion
